@@ -7,7 +7,7 @@ export default function adminGetAllReportsProcess(status) {
 
       dispatch({
         type: 'ADMIN_GET_ALL_REPORTS',
-        allReports: reports,
+        adminReports: reports,
       });
     } catch (error) {
       console.error('error: ', error);

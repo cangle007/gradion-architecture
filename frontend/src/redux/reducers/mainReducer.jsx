@@ -1,7 +1,9 @@
 export default function mainReducer(
   currentState = {
     allReports: [],
+    adminReports: [],
     reportItems: {},
+    adminToken: null,
   },
   action,
 ) {
@@ -9,27 +11,34 @@ export default function mainReducer(
     case 'GET_ALL_REPORTS':
       return { ...currentState, allReports: action.allReports };
 
-    case 'ADMIN_APPROVE_REPORT':
-      return { ...currentState, report: action.report };
-
-    case 'ADMIN_GET_ALL_REPORTS':
-      return { ...currentState, allReports: action.reports };
-
-    case 'ADMIN_REJECT_REPORT':
-      return { ...currentState, report: action.report };
-
     case 'CREATE_REPORT':
       return {
         ...currentState,
         allReports: [...currentState.allReports, action.report],
       };
 
+    case 'UPDATE_REPORT':
+      return {
+        ...currentState,
+        allReports: currentState.allReports.map((r) =>
+          r.id === action.report.id ? action.report : r,
+        ),
+      };
+
     case 'DELETE_REPORT':
       return {
         ...currentState,
-        allReports: currentState.allReports.filter((item) => {
-          return item.id !== action.reportId;
-        }),
+        allReports: currentState.allReports.filter(
+          (r) => r.id !== action.reportId,
+        ),
+      };
+
+    case 'SUBMIT_REPORT':
+      return {
+        ...currentState,
+        allReports: currentState.allReports.map((r) =>
+          r.id === action.report.id ? action.report : r,
+        ),
       };
 
     case 'GET_REPORT_ITEMS':
@@ -53,6 +62,17 @@ export default function mainReducer(
         },
       };
 
+    case 'UPDATE_REPORT_ITEM':
+      return {
+        ...currentState,
+        reportItems: {
+          ...currentState.reportItems,
+          [action.reportId]: currentState.reportItems[action.reportId].map(
+            (item) => (item.id === action.item.id ? action.item : item),
+          ),
+        },
+      };
+
     case 'DELETE_REPORT_ITEM':
       return {
         ...currentState,
@@ -64,15 +84,26 @@ export default function mainReducer(
         },
       };
 
-    case 'UPDATE_REPORT_ITEM':
+    case 'ADMIN_LOGIN':
+      return { ...currentState, adminToken: action.adminToken };
+
+    case 'ADMIN_GET_ALL_REPORTS':
+      return { ...currentState, adminReports: action.adminReports };
+
+    case 'ADMIN_APPROVE_REPORT':
       return {
         ...currentState,
-        reportItems: {
-          ...currentState.reportItems,
-          [action.reportId]: currentState.reportItems[action.reportId].map(
-            (item) => (item.id === action.item.id ? action.item : item),
-          ),
-        },
+        adminReports: currentState.adminReports.map((r) =>
+          r.id === action.report.id ? action.report : r,
+        ),
+      };
+
+    case 'ADMIN_REJECT_REPORT':
+      return {
+        ...currentState,
+        adminReports: currentState.adminReports.map((r) =>
+          r.id === action.report.id ? action.report : r,
+        ),
       };
 
     default:
