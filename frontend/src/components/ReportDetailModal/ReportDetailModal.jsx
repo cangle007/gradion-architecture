@@ -2,11 +2,11 @@ import { useEffect, useState } from 'react';
 import { useDispatch, useSelector } from 'react-redux';
 import cn from 'classnames';
 import styles from './ReportDetailModal.module.scss';
-import getReportItemsProcess from '../redux/thunks/getReportItemsProcess';
-import createReportItemProcess from '../redux/thunks/createReportItemProcess';
-import updateReportItemProcess from '../redux/thunks/updateReportItemProcess';
-import deleteReportItemProcess from '../redux/thunks/deleteReportItemProcess';
-import submitReportProcess from '../redux/thunks/submitReportProcess';
+import getReportItemsProcess from '../../redux/thunks/getReportItemsProcess';
+import createReportItemProcess from '../../redux/thunks/createReportItemProcess';
+import updateReportItemProcess from '../../redux/thunks/updateReportItemProcess';
+import deleteReportItemProcess from '../../redux/thunks/deleteReportItemProcess';
+import submitReportProcess from '../../redux/thunks/submitReportProcess';
 
 const EMPTY_ITEM = {
   amount: '',
@@ -201,7 +201,7 @@ const ReportDetailModal = ({ report, onClose }) => {
                           }
                         />
                       </td>
-                      <td>
+                      <td className={cn(styles.actionCell)}>
                         <button
                           className={cn(styles.saveBtn)}
                           onClick={handleUpdateItem}

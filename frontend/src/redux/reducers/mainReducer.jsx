@@ -1,6 +1,7 @@
 export default function mainReducer(
   currentState = {
     allReports: [],
+    reportItems: {},
   },
   action,
 ) {
@@ -17,10 +18,61 @@ export default function mainReducer(
     case 'ADMIN_REJECT_REPORT':
       return { ...currentState, report: action.report };
 
+    case 'CREATE_REPORT':
+      return {
+        ...currentState,
+        allReports: [...currentState.allReports, action.report],
+      };
+
+    case 'DELETE_REPORT':
+      return {
+        ...currentState,
+        allReports: currentState.allReports.filter((item) => {
+          return item.id !== action.reportId;
+        }),
+      };
+
+    case 'GET_REPORT_ITEMS':
+      return {
+        ...currentState,
+        reportItems: {
+          ...currentState.reportItems,
+          [action.reportId]: action.items,
+        },
+      };
+
     case 'CREATE_REPORT_ITEM':
       return {
         ...currentState,
-        reportId: [...currentState.allReports, action.report],
+        reportItems: {
+          ...currentState.reportItems,
+          [action.reportId]: [
+            ...(currentState.reportItems[action.reportId] || []),
+            action.item,
+          ],
+        },
+      };
+
+    case 'DELETE_REPORT_ITEM':
+      return {
+        ...currentState,
+        reportItems: {
+          ...currentState.reportItems,
+          [action.reportId]: currentState.reportItems[action.reportId].filter(
+            (item) => item.id !== action.itemId,
+          ),
+        },
+      };
+
+    case 'UPDATE_REPORT_ITEM':
+      return {
+        ...currentState,
+        reportItems: {
+          ...currentState.reportItems,
+          [action.reportId]: currentState.reportItems[action.reportId].map(
+            (item) => (item.id === action.item.id ? action.item : item),
+          ),
+        },
       };
 
     default:

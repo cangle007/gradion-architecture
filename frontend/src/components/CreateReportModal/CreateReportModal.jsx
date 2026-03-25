@@ -2,7 +2,7 @@ import { useState } from 'react';
 import { useDispatch } from 'react-redux';
 import cn from 'classnames';
 import styles from './CreateReportModal.module.scss';
-import createReportProcess from '../redux/thunks/createReportProcess';
+import createReportProcess from '../../redux/thunks/createReportProcess';
 
 const CreateReportModal = ({ onClose }) => {
   const dispatch = useDispatch();
