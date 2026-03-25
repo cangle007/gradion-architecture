@@ -20,6 +20,8 @@ exports.seed = async function (knex) {
         role: 'user',
       },
     ])
+    .onConflict('email')
+    .ignore()
     .returning(['id', 'email', 'role']);
 
   const adminUser = insertedUsers.find((u) => u.email === 'admin@example.com');

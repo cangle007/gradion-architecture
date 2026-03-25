@@ -29,7 +29,7 @@ services:
       JWT_KEY: dev-secret
     ports:
       - '3000:3000'
-    command: sh -c "npm run migrate && npm start"
+    command: sh ./start.sh
 
 volumes:
   postgres_data:
